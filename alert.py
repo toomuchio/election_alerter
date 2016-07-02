@@ -2,11 +2,14 @@ import urllib2, time, smtplib
 from bs4 import BeautifulSoup
 from prettytable import PrettyTable
 
+#Start SETTINGS
 SETTINGS = {}
 SETTINGS["GMAIL_USERNAME"] = "changeme"
+#SETTINGS["GMAIL_USERNAME"] = False #To disable email updates
 SETTINGS["GMAIL_PASSWORD"] = "changeme"
 SETTINGS["ALERT_EMAILS"] = ["changeme", "changeme2"]
 SETTINGS["REFRESH_RATE"] = 60
+#End SETTINGS
 
 def send_email(username, password, recipients, subject, body):
 	try:
@@ -56,7 +59,8 @@ while 1:
 		for row in reversed(current):
 			table_results.add_row([row[0], row[1], row[2]])
 		tmp = "\n\nResults Updated @ " + time.ctime() + "\n" + table_results.get_string()
-		send_email(SETTINGS['GMAIL_USERNAME'], SETTINGS['GMAIL_PASSWORD'], SETTINGS['ALERT_EMAILS'], "Polling Updates!", tmp)
+		if SETTINGS["GMAIL_USERNAME"]:
+			send_email(SETTINGS['GMAIL_USERNAME'], SETTINGS['GMAIL_PASSWORD'], SETTINGS['ALERT_EMAILS'], "Polling Updates!", tmp)
 		print tmp
 	time.sleep(SETTINGS['REFRESH_RATE'])
 
