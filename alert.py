@@ -66,6 +66,7 @@ while 1:
 		for row in reversed(current):
 			table_results.add_row([row[0], row[1], row[2]])
 		tmp = "Results Updated @ " + time.ctime() + "\n" + table_results.get_string()
-		send_email(SETTINGS['GMAIL_USERNAME'], SETTINGS['GMAIL_PASSWORD'], SETTINGS['ALERT_EMAILS'], "Polling Updates!", "<html><pre>" + tmp + "</pre></html>")
+		if SETTINGS["GMAIL_USERNAME"]:
+			send_email(SETTINGS['GMAIL_USERNAME'], SETTINGS['GMAIL_PASSWORD'], SETTINGS['ALERT_EMAILS'], "Polling Updates!", "<html><pre>" + tmp + "</pre></html>")
 		print "\n\n" + tmp
 
