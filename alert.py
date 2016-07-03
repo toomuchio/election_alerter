@@ -17,7 +17,7 @@ def send_email(username, password, recipients, subject, body):
 		gmail.ehlo()
 		gmail.starttls()
 		gmail.login(username, password)
-		gmail.sendmail(username, recipients, "From: " + username + "\nTo: " + ", ".join(recipients) + "\nSubject: " + subject + "\n\n" + body)
+		gmail.sendmail(username, recipients, "Content-Type: text/html\nFrom: " + username + "\nTo: " + ", ".join(recipients) + "\nSubject: " + subject + "\n\n" + body)
 		gmail.close()
 		return True
 	except:
@@ -65,8 +65,7 @@ while 1:
 		table_results.field_names =["Party", "Seats", "Close"]
 		for row in reversed(current):
 			table_results.add_row([row[0], row[1], row[2]])
-		tmp = "\n\nResults Updated @ " + time.ctime() + "\n" + table_results.get_string()
-		if SETTINGS["GMAIL_USERNAME"]:
-			send_email(SETTINGS['GMAIL_USERNAME'], SETTINGS['GMAIL_PASSWORD'], SETTINGS['ALERT_EMAILS'], "Polling Updates!", tmp)
-		print tmp
+		tmp = "Results Updated @ " + time.ctime() + "\n" + table_results.get_string()
+		send_email(SETTINGS['GMAIL_USERNAME'], SETTINGS['GMAIL_PASSWORD'], SETTINGS['ALERT_EMAILS'], "Polling Updates!", "<html><pre>" + tmp + "</pre></html>")
+		print "\n\n" + tmp
 
