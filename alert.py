@@ -51,8 +51,15 @@ def eStatus():
 last = None
 current = None
 while 1:
-	last = current
-	current = eStatus()
+	time.sleep(SETTINGS['REFRESH_RATE'])
+
+	tmp = eStatus()
+	if len(tmp) == 0:
+		continue
+	else:
+		last = current
+		current = tmp
+
 	if last != current:
 		table_results = PrettyTable()
 		table_results.field_names =["Party", "Seats", "Close"]
@@ -62,5 +69,4 @@ while 1:
 		if SETTINGS["GMAIL_USERNAME"]:
 			send_email(SETTINGS['GMAIL_USERNAME'], SETTINGS['GMAIL_PASSWORD'], SETTINGS['ALERT_EMAILS'], "Polling Updates!", tmp)
 		print tmp
-	time.sleep(SETTINGS['REFRESH_RATE'])
 
